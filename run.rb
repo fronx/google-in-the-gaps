@@ -7,7 +7,7 @@ require 'cgi'
 require 'google-search'
 require 'rainbow'
 
-class TokenizedQuery
+class GapQuery
   attr_reader :query, :marker
 
   PLACEHOLDER = %q{[\w\s'"äüöÄÜÖß-]+[\W\.,;!\?]*?}
@@ -15,14 +15,6 @@ class TokenizedQuery
   def initialize(query, marker)
     @query = query
     @marker = marker
-  end
-
-  def self.example
-    new [
-      "für die einen ist es * für die anderen *",
-      "the more you * the less you *",
-      "whatever you do, *",
-    ].sort_by { rand }.first
   end
 
   def expr
@@ -72,7 +64,7 @@ class TokenizedQuery
   end
 end
 
-query = TokenizedQuery.new(ARGV.last, Proc.new { |s| s.color(:green) })
+query = GapQuery.new(ARGV.last, Proc.new { |s| s.color(:green) })
 puts query.to_s
 
 query.matching_results.each do |line|
