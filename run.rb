@@ -28,7 +28,6 @@ class TokenizedQuery
   def expr
     @expr ||= Regexp.new(
       "(#{query})".
-        # gsub(/ü/, 'ue').gsub(/ä/, 'äe').
         gsub(/\s*\*\s*/, ") (#{PLACEHOLDER}) ("). # google -> regexp placeholders
         gsub(/\s*\(\)\s*/, ''), # cleanup
       Regexp::IGNORECASE
