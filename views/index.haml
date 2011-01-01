@@ -1,0 +1,23 @@
+%html
+  %head
+    %title
+      Google In The Gaps
+    %link{"rel" => "stylesheet", "href" => "style.css", "type" => "text/css"}
+  %body
+    .header
+      %h1 Google In The Gaps
+      %form{:action => "/", :method => "post"}
+        %input#q{:name => 'q', :value => params[:q]}
+    .main
+      - if @results.empty?
+        Currently, there are no results.
+      - else
+        %ul
+          - @results.each do |line|
+            %li
+              - line.each do |part|
+                - case part
+                - when GapQuery::Placeholder
+                  %span.gap= part.to_s
+                - else
+                  %span= part

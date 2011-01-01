@@ -1,20 +1,21 @@
 # encoding: UTF-8
-require 'rubygems'
-gem 'google-search'
-gem 'rainbow'
-
 require 'cgi'
 require 'google-search'
-require 'rainbow'
+
+Enumerable.module_eval do
+  def with_index
+    index = -1
+    map { |item| [item, index += 1] }
+  end
+end
 
 class GapQuery
-  attr_reader :query, :marker
+  attr_reader :query
 
   PLACEHOLDER = %q{[\w\s'"äüöÄÜÖß-]+[\W\.,;!\?]*?}
 
-  def initialize(query, marker)
+  def initialize(query)
     @query = query
-    @marker = marker
   end
 
   def expr
@@ -32,16 +33,11 @@ class GapQuery
     end
   end
 
-  def placeholder?(index)
-    groups[index] == '*'
-  end
-
-  def to_s
-    query
-  end
-
   def results
-    Google::Search::Web.new(:query => to_s)
+    Google::Search::Web.new(:query => query)
+  end
+
+  class Placeholder < String
   end
 
   def matching_results(&block)
@@ -51,22 +47,11 @@ class GapQuery
         gsub(/\s+/, ' ')
       )
       if text =~ expr
-        line = []
-        $~.to_a[1..-1].map do |group|
-          group.gsub(/<[^>]+>/, '')
-        end.each_with_index do |group, index|
-          line << (placeholder?(index) ? marker.call(group) : group)
+        $~.to_a[1..-1].with_index.map do |group, index|
+          line = group.gsub(/<[^>]+>/, '')
+          groups[index] == '*' ? Placeholder.new(line) : line
         end
-        block.call if block
-        line.join(' ') unless line.empty?
       end
-    end.compact.sort.uniq
+    end.compact.uniq.sort_by { |ary| ary.to_s.downcase }
   end
-end
-
-query = GapQuery.new(ARGV.last, Proc.new { |s| s.color(:green) })
-puts query.to_s
-
-query.matching_results.each do |line|
-  puts line
 end
