@@ -5,7 +5,7 @@ You write a sentence or a fragment and Google fills in the gaps (*) based on sea
 
 Example:
 
-    $ ruby run.rb "the more we * the less we *"
+    $ ruby console.rb "the more we * the less we *"
   
     The More We Know, the Less We Agree
     The More We Learn The Less We Know For Sure - by Ted Sheridan 
