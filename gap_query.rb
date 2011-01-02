@@ -9,6 +9,16 @@ Enumerable.module_eval do
   end
 end
 
+Array.class_eval do
+  def uniq_by(&block)
+    mapped = map { |item| block.call(item) }
+    with_index.select do |item, index|
+      (mapped.count(block.call(item)) == 1) ||
+        mapped.index(block.call(item)) == index
+    end.map { |item, _| item }
+  end
+end
+
 class GapQuery
   attr_reader :query
 
@@ -52,6 +62,8 @@ class GapQuery
           groups[index] == '*' ? Placeholder.new(line) : line
         end
       end
-    end.compact.uniq.sort_by { |ary| ary.to_s.downcase }
+    end.compact.
+      uniq_by { |ary| ary.to_s.downcase }.
+      sort_by { |ary| ary.to_s.downcase }
   end
 end
