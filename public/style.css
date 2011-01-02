@@ -1,11 +1,27 @@
 html, body {
   background-color: #f5f5f5;
   margin: 0; padding: 0;
+  font-family: Georgia;
+}
+
+p {
+  padding: 0 0 0.3em 0;
+  margin: 0;
+}
+
+a, a:hover, a:link, a:visited {
+  text-decoration: none;
+  color: #fa0;
+}
+
+a:hover {
+  color: white;
+  text-shadow: #fff 0 0 30px;
 }
 
 h1 {
   width: 500px;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: normal;
   font-style: italic;
   padding: 0 0 5px 0;
@@ -15,7 +31,7 @@ h1 {
 
 .header {
   background: #0a0;
-  padding: 15px 0 20px 0;
+  padding: 20px 0 20px 0;
 }
 
 .header input {
@@ -26,16 +42,17 @@ h1 {
   padding: 6px 8px;
 }
 
-.main {
-  font-size: 20px;
-}
-
-.info {
-  padding: 80px;
+.main .info {
+  color: #555;
+  padding: 80px 0 200px;
   width: 500px;
   font-size: 16px;
-  text-align: center;
   margin: 0 auto;
+}
+
+.main {
+  font-size: 18px;
+  line-height: 1.4em;
 }
 
 ul {
@@ -70,4 +87,20 @@ li span {
 li span.gap {
   clear: none;
   color: #0A0;
+}
+
+.footer {
+  background-color: #444;
+  color: #eee;
+  width: 500px;
+  margin: 20px auto 0 auto;
+  padding: 40px 20px 50px 20px;
+  -moz-box-shadow: 1px 0px 80px #444;
+  -webkit-box-shadow: 0px 0px 10px #444;
+  box-shadow: 1px 0px 100px #444;
+}
+
+.footer .info {
+  font-size: 16px;
+  color: #ddd;
 }
