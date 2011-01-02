@@ -10,7 +10,8 @@
         %input#q{:name => 'q', :value => params[:q]}
     .main
       - if @results.empty?
-        Currently, there are no results.
+        .info
+          Currently, there are no results.
       - else
         %ul
           - @results.each do |line|
