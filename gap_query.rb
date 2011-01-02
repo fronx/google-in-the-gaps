@@ -11,11 +11,11 @@ end
 
 Array.class_eval do
   def uniq_by(&block)
-    mapped = map { |item| block.call(item) }
-    with_index.select do |item, index|
-      (mapped.count(block.call(item)) == 1) ||
-        mapped.index(block.call(item)) == index
-    end.map { |item, _| item }
+    self & Hash[
+      *inject([]) do |memo, item|
+        memo << block.call(item) << item
+      end
+    ].values
   end
 end
 
